@@ -1,0 +1,122 @@
+Author: Theo Snoey
+Description: text file with worded answers to questions from the pset.
+
+Warmup
+------
+
+Q1. Looking at a call stack listing in a debugger, what is the indication that the program being debugged uses recursion?
+A1. The indication that the program being debugged uses recursion is that the function factorial in this case is calling itself multiple times in a row.
+
+Q2. Give an estimate of the maximum number of function calls that can be stacked up on your system before a stack overflow is triggered.
+A2. 16675 function calls
+
+Q3. Describe how the symptoms of infinite recursion differ from the symptoms of an infinite loop.
+A3. In an infinite loop a condition that is supposed ot end the loop is never met, leading the loop process to continue indefinitely. However, in the case of stack overflow, it isn't
+a specific loop that is never ending, but rather a series of function calls. In this case the condition that stops the function from calling itself for eternity is never met.
+
+Q4. In place of selecting values over a defined range, an alternate approach would be to randomly select values for base and exponent. Such a test case would test something different each time you ran it. This test approach is part of a larger approach known as "fuzz" testing. What do you see as possible benefit and downside of randomness being used in a test case?
+A4. Fuzz testing can be good because it can randomly generate test cases that you may not have come up with yourself. Maybe it can find an edge case you hadn't thought about exposing a flaw in your code you never knew existed. However, a downside of fuzz testing is definitely that it isn't as thorough as
+mechanically generating a range of test cases. If selecting at random, you're not sure you're testing everything you know you should be testing.
+
+Q5. What was the number of iterations of `recPower` did it take on your system to amount to a quarter second? Copy/paste the time results of the two time trial sequences running on that number of iterations.
+A5. recPower had to go through 15000000 (million) iterations for my system to amount to a quarter second.
+
+Correct (PROVIDED_TEST, line 106) Time trial recPower, double base, keep exp constant
+Line 108 TIME_OPERATION manyPowerCalls(size, 5) (size = 4) completed in 0.259 secs
+Line 108 TIME_OPERATION manyPowerCalls(size, 5) (size = 8) completed in 0.248 secs
+Line 108 TIME_OPERATION manyPowerCalls(size, 5) (size = 16) completed in 0.248 secs
+Line 108 TIME_OPERATION manyPowerCalls(size, 5) (size = 32) completed in 0.236 secs
+Line 108 TIME_OPERATION manyPowerCalls(size, 5) (size = 64) completed in 0.241 secs
+Line 108 TIME_OPERATION manyPowerCalls(size, 5) (size = 128) completed in 0.236 secs
+
+Correct (PROVIDED_TEST, line 112) Time trial recPower, keep base constant, double exp
+Line 114 TIME_OPERATION manyPowerCalls(5, size) (size = 4) completed in 0.238 secs
+Line 114 TIME_OPERATION manyPowerCalls(5, size) (size = 8) completed in 0.339 secs
+Line 114 TIME_OPERATION manyPowerCalls(5, size) (size = 16) completed in 0.416 secs
+Line 114 TIME_OPERATION manyPowerCalls(5, size) (size = 32) completed in 0.436 secs
+Line 114 TIME_OPERATION manyPowerCalls(5, size) (size = 64) completed in 0.556 secs
+Line 114 TIME_OPERATION manyPowerCalls(5, size) (size = 128) completed in 0.644 secs
+
+Q6. Explain how the recursive structure of `recPower` results in a Big-O runtime of `O(logN)` relative to the size of its `exp` argument.
+A6. Everytime rec power calls itself, it calls itself with hald the exp argument (we see this in the "double half = recPower(base, exp/2);"" line).
+Run 1 has n in the exponent, run 2 has n/2 in the exponent, run 3 has n/4 in the exponent and so on. For k runs, this roughly follows a n/2^k pattern when redistributed
+turns into a k = log2(n) patter. This means that the Big-O run time is O(logN) --> the inverse of an exponential.
+
+
+Balanced
+--------
+
+Q7. Compare your recursive solution to the iterative approach used for the Check Balance problem in [Section 1][section1]. Which version do you find easier to read and understand? In which version did you find it easier to confirm the correct behavior?
+A7. I find the recursive solution to be easier to read and understand. Fewer lines and he repetition of the same process means that when you understand one function call, you understand the behavior of the whole function. However,
+It does take a good understanding of recursion to look at a recursive fucnctino and immediately intuit the goal of it. It is nice not to have to look at a bunch of data structures, pushes, pops, and for loops to try to understand the behavior though.
+
+Merge
+-----
+
+Q8. Give a rough estimate of the maximum length sequence that could be successfully merged on your system assuming a recursive implementation of `binaryMerge`.
+A8. My system can probably run about 1-2 thousand recursive calls before stack overflow. So for each merge we do a recursive call so we could probably realistically merge only 1-2 thousand elements.
+
+Q9. What would be the observed behavior if attempting to recursively merge a sequence larger than that maximum?
+A9. We would get a stack overflow error after too many recursive calls being attempted.
+
+Q10. Include the data from your execution timing and explain how it supports your Big O prediction for `binaryMerge`.
+A10.
+Correct (STUDENT_TEST, line 130) Multiple time trials of Binary Merge on increasing input sizes
+Line 139 TIME_OPERATION binaryMerge(a, b) (size = 20000001) completed in 6.723 secs
+Line 139 TIME_OPERATION binaryMerge(a, b) (size = 40000000) completed in 13.254 secs
+Line 139 TIME_OPERATION binaryMerge(a, b) (size = 80000000) completed in 26.690 secs
+Line 139 TIME_OPERATION binaryMerge(a, b) (size = 160000000) completed in 54.659 secs
+
+this supports my Big O prediction because as the size of the queues doubles, the time rougly does aswell, so my function binaryMerge has a big O
+run time of O(n), directly proportional to the amount of things we feed into it.
+
+
+Q11. Include the data from your execution timing and explain how it supports your Big O prediction for `naiveMultiMerge`.
+A11. Increasing n:
+
+Correct (STUDENT_TEST, line 145) Multiple time trials of nativeMultiMerge on increasing input sizes, fixed K
+Line 152 TIME_OPERATION naiveMultiMerge(all) (size = 1000000) completed in 0.888 secs
+Line 152 TIME_OPERATION naiveMultiMerge(all) (size = 2000000) completed in 1.771 secs
+Line 152 TIME_OPERATION naiveMultiMerge(all) (size = 4000000) completed in 3.550 secs
+Line 152 TIME_OPERATION naiveMultiMerge(all) (size = 8000000) completed in 7.007 secs
+Line 152 TIME_OPERATION naiveMultiMerge(all) (size = 16000000) completed in 14.021 secs
+
+Increasing k:
+
+Correct (STUDENT_TEST, line 157) Multiple time trials of nativeMultiMerge on increasing input sizes, fixed N increasing K
+Line 164 TIME_OPERATION naiveMultiMerge(all) (size = 3500000) completed in 3.122 secs
+Line 164 TIME_OPERATION naiveMultiMerge(all) (size = 3500000) completed in 5.909 secs
+Line 164 TIME_OPERATION naiveMultiMerge(all) (size = 3500000) completed in 11.309 secs
+Line 164 TIME_OPERATION naiveMultiMerge(all) (size = 3500000) completed in 22.262 secs
+Line 164 TIME_OPERATION naiveMultiMerge(all) (size = 3500000) completed in 66.472 secs
+
+As n or k doubles in size, the run time roughly doubles in size. this contributes overall to an estimate of a O(n) or in the case where k is growing O(n) runtime. if both k and n were not fixed variables but rather we could
+input any sizes for both, which I suppose is the reality of the function in question we'd expect an O(nk) runtime.
+
+Q12. Include the data from your execution timing and explain how it demonstrates `O(n log k)` runtime for `recMultiMerge`.
+A12.
+Correct (STUDENT_TEST, line 140) Multiple time trials of recMultiMerge on increasing input sizes, fixed K increasing N
+Line 147 TIME_OPERATION recMultiMerge(all) (size = 1000000) completed in 0.642 secs
+Line 147 TIME_OPERATION recMultiMerge(all) (size = 2000000) completed in 1.307 secs
+Line 147 TIME_OPERATION recMultiMerge(all) (size = 4000000) completed in 2.669 secs
+Line 147 TIME_OPERATION recMultiMerge(all) (size = 8000000) completed in 5.165 secs
+Line 147 TIME_OPERATION recMultiMerge(all) (size = 16000000) completed in 10.235 secs
+
+Correct (STUDENT_TEST, line 151) Multiple time trials of recMultiMerge on increasing input sizes, fixed N increasing K
+Line 158 TIME_OPERATION recMultiMerge(all) (size = 3500000) completed in 2.215 secs
+Line 158 TIME_OPERATION recMultiMerge(all) (size = 3500000) completed in 3.736 secs
+Line 158 TIME_OPERATION recMultiMerge(all) (size = 3500000) completed in 5.176 secs
+Line 158 TIME_OPERATION recMultiMerge(all) (size = 3500000) completed in 7.012 secs
+Line 158 TIME_OPERATION recMultiMerge(all) (size = 3500000) completed in 8.600 secs
+
+If we keep k fixed but increase by n the run time increases by n.
+If we keep the n fixed but increase the k values by factors of 5 we see incremental increases in run time
+symptomatic of log k run times. We multiply the two to get big O of n log k.
+
+
+Q13. You run `recMultiMerge` on a sequence of size 1 million and see that it completes just fine. Explain why this is not running afoul of the call stack capacity limitation.  _Hint_: How many stack frames (levels) are expected to be on the call stack at the deepest point in the recursion in `recMultiMerge`?
+A13. 1mil --> 500k --> 250k--->....15k --> 976 --> 488-> ..and so on
+we divide the size inputted to the recursion call by 2 every time we run it. As you can see,
+1 million continually divided by calls of /2 can become smaller very quickly. The call stack the ith call roughly has 1million/2^i size.
+at the deepest point in recursion you get to your base cases where in our case we call with 0 or 1 k elements left. it doesn't take very long to get there.
+
